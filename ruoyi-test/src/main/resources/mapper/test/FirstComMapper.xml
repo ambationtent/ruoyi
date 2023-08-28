@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.test.mapper.FirstComMapper">
+    
+    <resultMap type="FirstCom" id="FirstComResult">
+        <result property="id"    column="id"    />
+        <result property="firstName"    column="first_name"    />
+        <result property="firstRemark"    column="first_remark"    />
+        <result property="firstTime"    column="first_time"    />
+        <result property="firstArea"    column="first_area"    />
+        <result property="firstProvince"    column="first_province"    />
+        <result property="firstMoney"    column="first_money"    />
+    </resultMap>
+
+    <sql id="selectFirstComVo">
+        select id, first_name, first_remark, first_time, first_area, first_province, first_money from first_com
+    </sql>
+
+    <select id="selectFirstComList" parameterType="FirstCom" resultMap="FirstComResult">
+        <include refid="selectFirstComVo"/>
+        <where>  
+            <if test="firstName != null  and firstName != ''"> and first_name like concat('%', #{firstName}, '%')</if>
+            <if test="firstRemark != null  and firstRemark != ''"> and first_remark = #{firstRemark}</if>
+            <if test="firstTime != null "> and first_time = #{firstTime}</if>
+            <if test="firstArea != null  and firstArea != ''"> and first_area = #{firstArea}</if>
+            <if test="firstProvince != null  and firstProvince != ''"> and first_province = #{firstProvince}</if>
+            <if test="firstMoney != null "> and first_money = #{firstMoney}</if>
+        </where>
+    </select>
+    
+    <select id="selectFirstComById" parameterType="String" resultMap="FirstComResult">
+        <include refid="selectFirstComVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFirstCom" parameterType="FirstCom">11111
+        insert into first_com
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="firstName != null">first_name,</if>
+            <if test="firstRemark != null">first_remark,</if>
+            <if test="firstTime != null">first_time,</if>
+            <if test="firstArea != null">first_area,</if>
+            <if test="firstProvince != null">first_province,</if>
+            <if test="firstMoney != null">first_money,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="firstName != null">#{firstName},</if>
+            <if test="firstRemark != null">#{firstRemark},</if>
+            <if test="firstTime != null">#{firstTime},</if>
+            <if test="firstArea != null">#{firstArea},</if>
+            <if test="firstProvince != null">#{firstProvince},</if>
+            <if test="firstMoney != null">#{firstMoney},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFirstCom" parameterType="FirstCom">
+        update first_com
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="firstName != null">first_name = #{firstName},</if>
+            <if test="firstRemark != null">first_remark = #{firstRemark},</if>
+            <if test="firstTime != null">first_time = #{firstTime},</if>
+            <if test="firstArea != null">first_area = #{firstArea},</if>
+            <if test="firstProvince != null">first_province = #{firstProvince},</if>
+            <if test="firstMoney != null">first_money = #{firstMoney},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFirstComById" parameterType="String">
+        delete from first_com where id = #{id}
+    </delete>
+
+    <delete id="deleteFirstComByIds" parameterType="String">
+        delete from first_com where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

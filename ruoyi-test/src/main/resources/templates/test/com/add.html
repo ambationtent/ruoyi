@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增第一个')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-com-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">名称：</label>
+                <div class="col-sm-8">
+                    <input name="firstName" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">地址：</label>
+                <div class="col-sm-8">
+                    <input name="firstRemark" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="firstTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">区域：</label>
+                <div class="col-sm-8">
+                    <input name="firstArea" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">省份：</label>
+                <div class="col-sm-8">
+                    <input name="firstProvince" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">余额：</label>
+                <div class="col-sm-8">
+                    <input id="myInput" name="firstMoney" class="form-control" type="text" oninput="validateInput()">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "test/com"
+        $("#form-com-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-com-add').serialize());
+            }
+        }
+
+        $("input[name='firstTime']").datetimepicker({
+            language:'zh-CN',
+            format:'yyyy-mm-dd hh:00',
+            weekStart: 1,
+            todayBtn:  1,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 1,  //小时视图
+            minView: 1
+        });
+
+        //验证只能输入数字
+        function validateInput() {
+            document.getElementById("myInput").value = document.getElementById("myInput").value.replace(/[^0-9]/g, '');
+        }
+    </script>
+</body>
+</html>
